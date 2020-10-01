@@ -1,0 +1,72 @@
+body {
+  background-image: url(https://i0.wp.com/westernslopewebdesignco.com/wp-content/uploads/2016/03/Blurred-Background-Sunset-3c-Free.jpg?ssl=1);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+.App {
+ 
+  /* height: 100%; */
+  text-align: center;
+  /* width: 60%; */
+  /* margin-left: auto;
+  margin-right: auto; */
+  /* background-color: rgba(201, 212, 218, 0.8); */
+}
+.alert{
+  margin-left: auto;
+  margin-right: 0;
+}
+.Login {
+   margin-left: auto;
+  margin-right: auto;
+  width:25%;
+  margin-top: 14%;
+}
+.Profile {
+  margin-top: 30px;
+}
+.profile-img {
+  float: left;
+  width: 200px;
+  height: 200px;
+  background-image: url(https://picsum.photos/200);
+}
+.profile-info {
+  width: 70%;
+  margin-left: 30px;
+  color:#343a40;
+  float: left;
+}
+.nav-tabs {
+  background-color: #343a40;;
+}
+.EditProfile a {
+  color:#657576
+}
+.EditProfile .form-control {
+  width: 80%;
+}
+.tab-content {
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 2px solid #657576;
+}
+.Lines {
+  margin-top:30px
+}
+.pagination {
+  font-size: 22px;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.pagination span {
+  margin-left: 10px
+}
+.pagination span:hover {
+  font-weight: bold;
+}
+.active-page {
+  font-weight: bold;
+}
