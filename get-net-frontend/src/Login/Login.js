@@ -5,8 +5,9 @@ import { Link, Redirect, withRouter } from 'react-router-dom';
 
 function Login(props) {
     function login(e) {
-        axios.get(`http://localhost:55759/api/auth/login?email=${email}&password=${password}`).then(response => {
-            props.setUser(response.data);
+        axios.get(`http://localhost:80/api/login?email=${email}&password=${password}`).then(response => { 
+            localStorage.setItem('id', response.data.id);
+            localStorage.setItem('token', response.data.token);
             props.setUserAuth(true);
             props.history.push("/profile");
         }).catch(err => console.log(err))
@@ -22,8 +23,8 @@ function Login(props) {
     const [regPass, setRegPass] = useState("");
     function submitRegister(e) {
         e.preventDefault();
-        axios.get(`http://localhost:55759/api/auth/register?email=${regEmail}&password=${regPass}`).then(response => {
-            setShowAlert(true);  
+        axios.get(`http://localhost:55759/api/register?email=${regEmail}&password=${regPass}`).then(response => {
+            setShowAlert(true);
         }).catch(err => console.log(err))
          
     }

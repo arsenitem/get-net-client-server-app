@@ -1,8 +1,14 @@
 import React from 'react';
 import { Button, Form, FormControl, Nav, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 function NavComponent(props) {
+    function logout() {
+      props.setUserAuth(false);
+      localStorage.removeItem('token');
+      localStorage.removeItem('id');
+      props.history.push("/login");
+    }
     return (
         <div className="Nav">
             <Navbar bg="dark" variant="dark">
@@ -19,11 +25,11 @@ function NavComponent(props) {
     </Form> */}
     <Nav>
     <Nav.Link>{props.user.email}</Nav.Link>
-      <Button variant="outline-info">Выход</Button>
+      <Button variant="outline-info" onClick={logout}>Выход</Button>
     </Nav>
   </Navbar>
         </div>
     );
 }
 
-export default NavComponent;
+export default withRouter(NavComponent);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import Login from './Login/Login';
@@ -7,22 +7,27 @@ import { Container } from 'react-bootstrap';
 import Profile from './Profile/Profile';
 import NavComponent from './Profile/NavComponent';
 import Lines from './Tables/Lines';
-import NotFound from './Common/NotFound';
 import Calls from './Tables/Calls';
 
 function App() {
   let [userAuth, setUserAuth] = useState(false)
   let [user, setUser] = useState({});
+
+  useEffect(() => {
+    let id = localStorage.getItem('id');
+    let token = localStorage.getItem('token');
+    if (id && token) {
+      setUserAuth(true);
+    }  
+  })
+
   return (
     <BrowserRouter>
     
     <Container className="App">
-        <Route path="/">
-          <Redirect to="/login" />
-        </Route>
         {userAuth?
           <>
-          <NavComponent user={user}/>
+          <NavComponent user={user} setUserAuth = {setUserAuth}/>
           <Route path="/profile">
             <Profile user={user} setUser={setUser}/>
           </Route>
@@ -33,10 +38,10 @@ function App() {
             <Calls/>
           </Route>
 
-        </> : null}
-        <Route path="/login">
+        </> :  <>
+      <Route path="/login">
           <Login setUserAuth = {setUserAuth} setUser={setUser}/>
-        </Route>
+        </Route></>}
         </Container>
     
        

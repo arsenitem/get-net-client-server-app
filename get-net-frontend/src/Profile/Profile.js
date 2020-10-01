@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Button, Row } from 'react-bootstrap';
 import EditProfile from './EditProfile';
 
 function Profile(props) {
-    function editProfile() {
-
-    }
+    let [user, setUser] = useState({});
+    useEffect(() => {
+        Axios.get(`http://localhost:80/api/userinfo?id=${localStorage.getItem('id')}}`,{headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
+            setUser(response.data);
+        })
+    }, [])
     let [editProfileEnabled, setEditProfileEnabled] = useState(false);
   return (
     <div className="Profile">

@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const sha256 = require('js-sha256');
 
-let masterUser = new User('admin', sha256('admin'));
+let masterUser = new User('admin@mail.ru', sha256('admin'));
 masterUser.verifyEmail();
 let data = {
     users: [masterUser],

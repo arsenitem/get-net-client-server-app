@@ -22,7 +22,7 @@ function EditProfile(props) {
     }
 
     function saveSecChanges() {
-        Axios.post(`http://localhost:55759/api/user/updatepass?email=${props.user.email}&password=${newPass}`).then(response =>{
+        Axios.post(`http://localhost:55759/api/user/updatepass?id=${name}&password=${newPass}`).then(response =>{
             props.setUser(response.data)
         })
         props.setEditProfileEnabled(false)

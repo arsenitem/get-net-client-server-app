@@ -18,5 +18,23 @@ class User  {
     verifyEmail() {
         this.isEmailVerified = true;
     }
+
+    updateInfo(firstName, lastName, birthDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+    }
+
+    changePass() {
+        this.isEmailVerified = true;
+    }
+
+    increaseBalance(amount) {
+        this.balance = this.balance + amount;
+    }
+
+    decreaseBalance(amount) {
+        this.balance = this.balance - amount;
+    }
 }
 module.exports = User;

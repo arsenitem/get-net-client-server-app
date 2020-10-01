@@ -16,9 +16,9 @@ app.use(cors());
 app.get("/api/login", function(request, response) {
     let email = request.query.email;
     let password = request.query.password;
-    let token = Login.login(email, password);
-    if (token) {  
-        response.send(token);
+    let result = Login.login(email, password);
+    if (result) {  
+        response.send(result);
     }
 
     response.send(400);
@@ -43,10 +43,8 @@ app.get("/verify-account",function(request, response) {
 app.get("/api/register", function(request, response) {
     let email = request.query.email;
     let password = request.query.password;
-    let usr = new User(email,password)
-    data.users.push(usr);
-    sendMail('123', usr);
-    response.send(result);
+    Register.register(email, password);
+    response.send(200);
 });
 
 /*
@@ -74,6 +72,50 @@ app.get("/api/userinfo", function(request, response) {
         let id = request.query.id;
         let user = data.users.find(x =>x.id = id);
         if (user) {
+            response.send(user);
+        }
+        
+        response.send(400);
+    }
+
+    response.send(401);
+});
+
+/*
+    Get user info
+    query parameters: string id
+    returns: lines 
+*/
+app.post("/api/changeuserinfo", function(request, response) {  
+    if (Login.isAuth(request)) {
+        let id = request.query.id;
+        let firstName = request.query.hasOwnProperty('lastName') ? request.query.firstName : null;
+        let lastName = request.query.hasOwnProperty('firstName') ? request.query.lastName : null;
+        let birthDay = request.query.hasOwnProperty('birthDate') ? request.query.birthDate : null;
+        let user = data.users.find(x =>x.id = id);
+        if (user) {
+            user.updateInfo(firstName, lastName, birthDay);
+            response.send(user);
+        }
+        
+        response.send(400);
+    }
+
+    response.send(401);
+});
+
+/*
+    Change user password
+    query parameters: string id, string password
+    returns: lines 
+*/
+app.post("/api/changeuserinfo", function(request, response) {  
+    if (Login.isAuth(request)) {
+        let id = request.query.id;
+        let id = request.query.password;
+        let user = data.users.find(x =>x.id = id);
+        if (user) {
+            user.updatePassword(password);
             response.send(user);
         }
         
