@@ -12,9 +12,9 @@ const Login = {
     */
     login(email, password) {
         let user = data.users.find(x => x.email === email & x.password === sha256(password) & x.isEmailVerified);
-        let token = generateToken(user);
         if (user) {
-            return {token: token, id: user.id}
+            let token = generateToken(user);
+            return {token: token, id: user.id, email: user.email}
         } else {
             return null;
         }
@@ -30,7 +30,7 @@ const Login = {
             //get auth header from request
             let token = request.headers.authorization.split(' ')[1];
             let decoded = jwt.verify(token, 'signature123');
-            let user = data.users.find(x => x.id = decoded.data.id);
+            let user = data.users.find(x => x.id === decoded.data.id);
             return user ? true : false;
         }
     

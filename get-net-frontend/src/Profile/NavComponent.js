@@ -24,7 +24,7 @@ function NavComponent(props) {
       <Button variant="outline-info">Search</Button>
     </Form> */}
     <Nav>
-    <Nav.Link>{props.user.email}</Nav.Link>
+    <Nav.Link>{localStorage.getItem('email')}</Nav.Link>
       <Button variant="outline-info" onClick={logout}>Выход</Button>
     </Nav>
   </Navbar>

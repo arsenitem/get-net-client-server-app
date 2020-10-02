@@ -1,5 +1,5 @@
 const express = require("express");
-
+const sha256 = require('js-sha256');
 const app = express();
 const cors = require('cors');
 const User = require('./models/user');
@@ -70,9 +70,11 @@ app.get("/api/lines", function(request, response) {
 app.get("/api/userinfo", function(request, response) {  
     if (Login.isAuth(request)) {
         let id = request.query.id;
-        let user = data.users.find(x =>x.id = id);
+        let user = data.users.find(x => x.id === id);
         if (user) {
-            response.send(user);
+            let userCopy = {...user};
+            delete userCopy.password;
+            response.send(userCopy);
         }
         
         response.send(400);
@@ -92,7 +94,7 @@ app.post("/api/changeuserinfo", function(request, response) {
         let firstName = request.query.hasOwnProperty('lastName') ? request.query.firstName : null;
         let lastName = request.query.hasOwnProperty('firstName') ? request.query.lastName : null;
         let birthDay = request.query.hasOwnProperty('birthDate') ? request.query.birthDate : null;
-        let user = data.users.find(x =>x.id = id);
+        let user = data.users.find(x =>x.id === id);
         if (user) {
             user.updateInfo(firstName, lastName, birthDay);
             response.send(user);
@@ -106,17 +108,18 @@ app.post("/api/changeuserinfo", function(request, response) {
 
 /*
     Change user password
-    query parameters: string id, string password
+    query parameters: string id, string prev, string password
     returns: lines 
 */
-app.post("/api/changeuserinfo", function(request, response) {  
+app.post("/api/changeuserpassword", function(request, response) {  
     if (Login.isAuth(request)) {
         let id = request.query.id;
-        let id = request.query.password;
-        let user = data.users.find(x =>x.id = id);
+        let prev = request.query.prev;
+        let password = request.query.password;
+        let user = data.users.find(x =>x.id === id && x.password === sha256(prev));
         if (user) {
             user.updatePassword(password);
-            response.send(user);
+            response.send(200);
         }
         
         response.send(400);

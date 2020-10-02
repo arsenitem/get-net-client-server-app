@@ -1,6 +1,6 @@
 const moment = require("moment");
 const { v4: uuidv4 } = require('uuid')
-
+const sha256 = require('js-sha256');
 class User  {
     constructor(email, password, firstName = null, lastName = null, birthDate = null, isEmailVerified = false, balance = 100) {
         this.id = uuidv4();
@@ -12,7 +12,6 @@ class User  {
         this.regDate = moment();
         this.isEmailVerified = isEmailVerified;
         this.balance = balance;
-        this.activationCode = uuidv4();
     }
 
     verifyEmail() {
@@ -25,8 +24,8 @@ class User  {
         this.birthDate = birthDate;
     }
 
-    changePass() {
-        this.isEmailVerified = true;
+    updatePassword(password) {
+        this.password = sha256(password);
     }
 
     increaseBalance(amount) {

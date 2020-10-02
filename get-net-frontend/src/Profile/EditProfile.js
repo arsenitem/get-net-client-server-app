@@ -1,31 +1,36 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Tabs ,Tab, FormControl, Form, Button, Row, Col } from 'react-bootstrap';
+import moment from 'moment';
+import { Tabs ,Tab, FormControl, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 
 function EditProfile(props) {
     let [name, setName] = useState("");
     let [lastName, setLastName] = useState("");
+    let [bday, setBday] = useState("");
     let [prevPass, setPrevPass] = useState("");
     let [newPass, setNewPass] = useState("");
-
+    const [showAlert, setShowAlert] = useState(false);
     useEffect(() => {
-      
         setName(props.user.firstName);
         setLastName(props.user.lastName);
+        setBday(props.user.birthDate);
     },[])
    
     function saveChanges() {
-        Axios.post(`http://localhost:55759/api/user/update?email=${props.user.email}&firstName=${name}&lastName=${lastName}`).then(response =>{
+        Axios.post(`http://localhost:80/api/changeuserinfo?id=${localStorage.getItem('id')}&firstName=${name}&lastName=${lastName}&birthDate=${bday}`,null,
+        {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response =>{
             props.setUser(response.data)
         })
         props.setEditProfileEnabled(false)
     }
 
     function saveSecChanges() {
-        Axios.post(`http://localhost:55759/api/user/updatepass?id=${name}&password=${newPass}`).then(response =>{
-            props.setUser(response.data)
+        Axios.post(`http://localhost:80/api/changeuserpassword?id=${localStorage.getItem('id')}&password=${newPass}&prev=${prevPass}`, null,
+        {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
+            props.setEditProfileEnabled(false)
+        }).catch(() =>{
+            setShowAlert(true);
         })
-        props.setEditProfileEnabled(false)
     }
    
   return (
@@ -59,7 +64,7 @@ function EditProfile(props) {
         </label>
         </Col>
         <Col>
-        <FormControl type="date" value={props.user.birthDate} onChange={(e) =>{setLastName(e.target.value)}}/>
+        <FormControl type="date" value={bday} onChange={(e) =>{setBday(e.target.value)}}/>
         </Col>  
     </Row>
     <Row className="mt-3 mb-2">
@@ -71,6 +76,14 @@ function EditProfile(props) {
    
   </Tab>
   <Tab eventKey="profile" title="Безопасность">
+      <Row>
+      <Alert show={showAlert} variant="danger" dismissible onClose={() => setShowAlert(false)}>
+        <Alert.Heading>Ошибка</Alert.Heading>
+        <p>      
+            Старый пароль введен неверно
+        </p>
+    </Alert>
+      </Row>
   <Row className="mt-3">
         <Col md={4}>
         <label>

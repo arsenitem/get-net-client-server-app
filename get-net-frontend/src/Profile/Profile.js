@@ -1,12 +1,13 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Row } from 'react-bootstrap';
+import moment from 'moment';
 import EditProfile from './EditProfile';
 
 function Profile(props) {
     let [user, setUser] = useState({});
     useEffect(() => {
-        Axios.get(`http://localhost:80/api/userinfo?id=${localStorage.getItem('id')}}`,{headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
+        Axios.get(`http://localhost:80/api/userinfo?id=${localStorage.getItem('id')}`,{headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
             setUser(response.data);
         })
     }, [])
@@ -20,19 +21,22 @@ function Profile(props) {
             <h2>ООО новый малый бизнес</h2>
         </Row>
         <hr/>
-        {editProfileEnabled? <EditProfile setEditProfileEnabled = {setEditProfileEnabled} user={props.user} setUser= {props.setUser}/>: <>
+        {editProfileEnabled? <EditProfile setEditProfileEnabled = {setEditProfileEnabled} user={user} setUser= {setUser}/>: <>
            
         <Row>
-            Имя: {props.user.firstName}
+            Имя: {user.firstName}
         </Row>
         <Row>
-            Фамилия: {props.user.lastName}
+            Фамилия: {user.lastName}
         </Row>
         <Row>
-            Ваш баланс: {props.user.balance}
+            Дата рождения: {user.birthDate}
         </Row>
         <Row>
-            Дата регистрации: {props.user.regDate}
+            Ваш баланс: {user.balance}
+        </Row>
+        <Row>
+            Дата регистрации: {moment(user.regDate).format('YYYY-DD-MM')}
         </Row>        
         <Row>
             Дополнительная информация

@@ -2,20 +2,22 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import { Row, Table } from 'react-bootstrap';
 
-function Lines() {
+function Bills() {
     let [lines, setLines] = useState([]);
     let [totalPages, setTotalPages] = useState(0);
     let [currentPage, setCurrentPage] = useState(1);
     useEffect(() =>{
-      axios.get(`http://localhost:80/api/lines?page=${currentPage}`, {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
-        setTotalPages(Math.ceil(response.data.count/10));
-        setLines(response.data.lines);
-      });
+        axios.get(`http://localhost:55759/api/tables/linescount`).then(response => {
+            setTotalPages(Math.ceil(response.data/10));
+        });
+        axios.get(`http://localhost:55759/api/tables/lines?page=${currentPage}`).then(response => {
+            setLines(response.data);
+        })
     }, []);
     let pageClick = (item) => {
         setCurrentPage(item);
-        axios.get(`http://localhost:80/api/lines?page=${item}`, {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
-            setLines(response.data.lines);
+        axios.get(`http://localhost:55759/api/tables/lines?page=${item}`).then(response => {
+            setLines(response.data);
         })
     }
     let pages = []
@@ -61,4 +63,4 @@ function Lines() {
   );
 }
 
-export default Lines;
+export default Bills;

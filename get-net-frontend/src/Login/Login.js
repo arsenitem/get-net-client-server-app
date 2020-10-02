@@ -4,29 +4,29 @@ import { Form, Button, Modal, Row, Col, Alert } from 'react-bootstrap';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 
 function Login(props) {
-    function login(e) {
-        axios.get(`http://localhost:80/api/login?email=${email}&password=${password}`).then(response => { 
-            localStorage.setItem('id', response.data.id);
-            localStorage.setItem('token', response.data.token);
-            props.setUserAuth(true);
-            props.history.push("/profile");
-        }).catch(err => console.log(err))
-        e.preventDefault();
-        
-    }
-  
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showAlert, setShowAlert] = useState(false);
     const [showModal, setShow] = useState(false);
     const [regEmail, setRegEmail] = useState("");
     const [regPass, setRegPass] = useState("");
+
+    function login(e) {
+        axios.get(`http://localhost:80/api/login?email=${email}&password=${password}`).then(response => { 
+            localStorage.setItem('id', response.data.id);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('email', response.data.email);
+            props.setUserAuth(true);
+            props.history.push("/profile");
+        }).catch(err => console.log(err))
+        e.preventDefault();      
+    }
+
     function submitRegister(e) {
         e.preventDefault();
-        axios.get(`http://localhost:55759/api/register?email=${regEmail}&password=${regPass}`).then(response => {
+        axios.get(`http://localhost:80/api/register?email=${regEmail}&password=${regPass}`).then(() => {
             setShowAlert(true);
-        }).catch(err => console.log(err))
-         
+        }).catch(err => console.log(err));     
     }
     return (
         <>
@@ -36,16 +36,13 @@ function Login(props) {
                     <Form.Label>Email </Form.Label>
                     <Form.Control type="email" placeholder="email" required="true" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </Form.Group>
-
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Пароль</Form.Label>
                     <Form.Control type="password" placeholder="Пароль" required="true" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </Form.Group>
-                {/* <Link to="/profile"> */}
                     <Button variant="primary" type="submit">
                         Войти
                     </Button>
-                {/* </Link> */}
                 <Button variant="link" onClick={() => { setShow(true) }}>
                     Register
                 </Button>
@@ -59,39 +56,36 @@ function Login(props) {
                 <Modal.Header closeButton>
                     <Modal.Title id="example-modal-sizes-title-lg">
                         Регистрация
-                </Modal.Title>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <Alert show={showAlert} variant="success" className="alert">
-        <Alert.Heading>Регистрация завершена</Alert.Heading>
-        <p>
-           Подтвердите регистрацию. Письмо подтверждения отправлено на {regEmail}
-        </p>
-        <p>      
-            <Button variant="primary" onClick={()=>{setShow(false)}}>
-                Вход
-            </Button>
-        </p>
-    </Alert>
-    <Form onSubmit={submitRegister}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" placeholder="email" required="true" value={regEmail} onChange={(e) => {setRegEmail(e.target.value)}}/>
-                    </Form.Group>
-
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Label>Пароль</Form.Label>
-                        <Form.Control type="password" placeholder="Пароль" required="true" value={regPass} onChange={(e)=>{setRegPass(e.target.value)}}/>
-                    </Form.Group>                  
-                    {/* <Link to="/profile"> */}
-                    <Button variant="primary" type="submit">
-                        Зарегестрироваться
+                    <Alert show={showAlert} variant="success" className="alert">
+                    <Alert.Heading>Регистрация завершена</Alert.Heading>
+                    <p>
+                    Подтвердите регистрацию. Письмо подтверждения отправлено на {regEmail}
+                    </p>
+                    <p>      
+                        <Button variant="primary" onClick={()=>{setShow(false)}}>
+                            Вход
                         </Button>
-                    {/* </Link> */}
+                    </p>
+                    </Alert>
+                    <Form onSubmit={submitRegister}>
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" placeholder="email" required="true" value={regEmail} onChange={(e) => {setRegEmail(e.target.value)}}/>
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Label>Пароль</Form.Label>
+                            <Form.Control type="password" placeholder="Пароль" required="true" value={regPass} onChange={(e)=>{setRegPass(e.target.value)}}/>
+                        </Form.Group>                  
+                        <Button variant="primary" type="submit">
+                            Зарегестрироваться
+                            </Button>
                     </Form>
                 </Modal.Body>
             </Modal>
-
         </div>
         </>
     );

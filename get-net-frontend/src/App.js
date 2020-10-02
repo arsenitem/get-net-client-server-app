@@ -8,28 +8,26 @@ import Profile from './Profile/Profile';
 import NavComponent from './Profile/NavComponent';
 import Lines from './Tables/Lines';
 import Calls from './Tables/Calls';
+import Bills from './Tables/Bills';
 
 function App() {
-  let [userAuth, setUserAuth] = useState(false)
-  let [user, setUser] = useState({});
-
+  let [userAuth, setUserAuth] = useState(false);
   useEffect(() => {
     let id = localStorage.getItem('id');
     let token = localStorage.getItem('token');
     if (id && token) {
       setUserAuth(true);
     }  
-  })
+  });
 
   return (
     <BrowserRouter>
-    
-    <Container className="App">
+      <Container className="App">
         {userAuth?
-          <>
-          <NavComponent user={user} setUserAuth = {setUserAuth}/>
+        <>
+          <NavComponent setUserAuth = {setUserAuth}/>
           <Route path="/profile">
-            <Profile user={user} setUser={setUser}/>
+            <Profile/>
           </Route>
           <Route path="/lines">
           <Lines/>
@@ -37,18 +35,17 @@ function App() {
           <Route path="/calls">
             <Calls/>
           </Route>
-
-        </> :  <>
-      <Route path="/login">
-          <Login setUserAuth = {setUserAuth} setUser={setUser}/>
-        </Route></>}
-        </Container>
-    
-       
-       
-     
+          <Route path="/bills">
+            <Bills/>
+          </Route>
+        </> : 
+        <>
+        <Route path="/login">
+          <Login setUserAuth = {setUserAuth}/>
+        </Route>
+        </>}
+      </Container>         
     </BrowserRouter>
-  
   );
 }
 
