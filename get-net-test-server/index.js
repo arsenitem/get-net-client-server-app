@@ -55,7 +55,7 @@ app.get("/api/register", function(request, response) {
 app.get("/api/lines", function(request, response) { 
     if (Login.isAuth(request)) {
         let page = request.query.page
-        let result = {lines: calls.slice((page-1)*10, page*10), count: data.lines.length}
+        let result = {lines: data.lines.slice((page-1)*10, page*10), count: data.lines.length}
         response.send(result);
     }
 
@@ -137,6 +137,21 @@ app.get("/api/calls", function(request, response) {
     if (Login.isAuth(request)) {
         let page = request.query.page
         let result = {calls: data.calls.slice((page-1)*10, page*10), count: data.calls.length}
+        response.send(result);
+    }
+
+    response.send(401);
+});
+
+/*
+    Get bills
+    query parameters: page
+    returns: calls
+*/
+app.get("/api/bills", function(request, response) {
+    if (Login.isAuth(request)) {
+        let page = request.query.page
+        let result = {bills: data.bills.slice((page-1)*10, page*10), count: data.bills.length}
         response.send(result);
     }
 

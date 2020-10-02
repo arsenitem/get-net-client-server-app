@@ -7,18 +7,16 @@ function Bills() {
     let [totalPages, setTotalPages] = useState(0);
     let [currentPage, setCurrentPage] = useState(1);
     useEffect(() =>{
-        axios.get(`http://localhost:55759/api/tables/linescount`).then(response => {
-            setTotalPages(Math.ceil(response.data/10));
-        });
-        axios.get(`http://localhost:55759/api/tables/lines?page=${currentPage}`).then(response => {
-            setLines(response.data);
-        })
+      axios.get(`http://localhost:80/api/bills?page=${currentPage}`, {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
+        setTotalPages(Math.ceil(response.data.count/10));
+        setLines(response.data.bills);
+      });
     }, []);
     let pageClick = (item) => {
-        setCurrentPage(item);
-        axios.get(`http://localhost:55759/api/tables/lines?page=${item}`).then(response => {
-            setLines(response.data);
-        })
+      setCurrentPage(item);
+      axios.get(`http://localhost:80/api/bills?page=${item}`, {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
+          setLines(response.data.bills);
+      });
     }
     let pages = []
     for(let i=1; i<=totalPages;i++) {
@@ -38,21 +36,17 @@ function Bills() {
         <Table striped bordered hover variant="dark">
   <thead>
     <tr>
-      <th>Тип линии</th>
-      <th>CLI</th>
-      <th>Город</th>
-      <th>Тариф</th>
-      <th>Запись звонка</th>
+      <th>Номер счета</th>
+      <th>Сумма</th>
+      <th>Статуc</th>
     </tr>
   </thead>
   <tbody>
       {lines.map(item => {
           return <tr>
-          <td>{item.type}</td>
-          <td>{item.CLI}</td>
-          <td>{item.city}</td>
-          <td>{item.tariff}</td>
-          <td>{item.record? "✔": "✖"}</td>
+          <td>{item.number}</td>
+          <td>{item.sum}</td>
+          <td>{item.status}</td>
         </tr>
       })}
     
