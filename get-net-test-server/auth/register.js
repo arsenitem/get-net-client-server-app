@@ -37,11 +37,11 @@ async function sendMail(user) {
         secure: false,
         auth: {
           user: "arsenitem@bk.ru",
-          pass: "89523165557roma"
+          pass: "mypassword"
         }
     });
     let link = `http://localhost:80/verify-account?id=${user.id}&activationCode=${user.activationCode}`;
-    let result = transporter.sendMail({
+    transporter.sendMail({
         from: '"noreply@get-net-test" <arsenitem@bk.ru>',
         to: "arsenitem@gmail.com",
         // to: user.email,
@@ -49,7 +49,7 @@ async function sendMail(user) {
         text: "Спасибо за регистрацию ",
         html: " Аккаунт успешно создан. Перейдите по ссылке ниже для подтверждения регистрации" +
         " <br/><br/><a href='" + link + "'>" + link + "</a> "
-      });
+    });
 }
 
 module.exports = Register;

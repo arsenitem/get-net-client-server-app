@@ -1,6 +1,5 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
 import { Tabs ,Tab, FormControl, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 
 function EditProfile(props) {

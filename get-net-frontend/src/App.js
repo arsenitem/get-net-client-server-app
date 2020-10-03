@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './App.css';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import Login from './Login/Login';
@@ -9,6 +8,7 @@ import NavComponent from './Profile/NavComponent';
 import Lines from './Tables/Lines';
 import Calls from './Tables/Calls';
 import Bills from './Tables/Bills';
+import NotFound from './Common/NotFound';
 
 function App() {
   let [userAuth, setUserAuth] = useState(false);
@@ -26,23 +26,33 @@ function App() {
         {userAuth?
         <>
           <NavComponent setUserAuth = {setUserAuth}/>
-          <Route path="/profile">
-            <Profile/>
-          </Route>
-          <Route path="/lines">
-          <Lines/>
-          </Route>
-          <Route path="/calls">
-            <Calls/>
-          </Route>
-          <Route path="/bills">
-            <Bills/>
-          </Route>
+          <Switch>
+            <Route exact path="/profile">
+              <Profile/>
+            </Route>
+            <Route exact path="/lines">
+              <Lines/>
+            </Route>
+            <Route exact path="/calls">
+              <Calls/>
+            </Route>
+            <Route exact path="/bills">
+              <Bills/>
+            </Route>
+            <Route path="/">
+              <NotFound/>
+            </Route>  
+          </Switch>     
         </> : 
         <>
-        <Route path="/login">
+        <Switch>
+        <Route exact path="/login">
           <Login setUserAuth = {setUserAuth}/>
         </Route>
+        <Route path="/">
+          <Login setUserAuth = {setUserAuth}/>
+        </Route>
+        </Switch>   
         </>}
       </Container>         
     </BrowserRouter>
