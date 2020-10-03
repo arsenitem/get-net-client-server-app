@@ -12,19 +12,19 @@ function Login(props) {
     const [regPass, setRegPass] = useState("");
 
     function login(e) {
-        axios.get(`http://localhost:80/api/login?email=${email}&password=${password}`).then(response => { 
+        axios.get(`http://35.228.122.244:80/api/login?email=${email}&password=${password}`).then(response => { 
             localStorage.setItem('id', response.data.id);
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('email', response.data.email);
             props.setUserAuth(true);
-            props.history.push("/profile");
+            props.history.replace("/profile#");
         }).catch(err => console.log(err))
         e.preventDefault();      
     }
 
     function submitRegister(e) {
         e.preventDefault();
-        axios.get(`http://localhost:80/api/register?email=${regEmail}&password=${regPass}`).then(() => {
+        axios.get(`http://35.228.122.244:80/api/register?email=${regEmail}&password=${regPass}`).then(() => {
             setShowAlert(true);
         }).catch(err => console.log(err));     
     }

@@ -32,24 +32,24 @@ let Register = {
 */
 async function sendMail(user) {
     let transporter = await nodemailer.createTransport({
-        host: 'smtp.bk.ru',
-        port: 25,
-        secure: false,
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: {
-          user: "arsenitem@bk.ru",
-          pass: "mypassword"
+            user: "mail@gmail.com",
+            pass: "pass"
         }
     });
-    let link = `http://localhost:80/verify-account?id=${user.id}&activationCode=${user.activationCode}`;
+    let link = `http://35.228.122.244:80/verify-account?id=${user.id}`;
     transporter.sendMail({
-        from: '"noreply@get-net-test" <arsenitem@bk.ru>',
-        to: "arsenitem@gmail.com",
-        // to: user.email,
+        from: '"noreply@get-net-test" <arsenitem@gmail.com>',
+        to: user.email,
         subject: "Подтверждение регистрации",
         text: "Спасибо за регистрацию ",
         html: " Аккаунт успешно создан. Перейдите по ссылке ниже для подтверждения регистрации" +
         " <br/><br/><a href='" + link + "'>" + link + "</a> "
-    });
+    });   
 }
+    
 
 module.exports = Register;

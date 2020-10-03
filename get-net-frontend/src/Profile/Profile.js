@@ -7,7 +7,7 @@ import EditProfile from './EditProfile';
 function Profile(props) {
     let [user, setUser] = useState({});
     useEffect(() => {
-        Axios.get(`http://localhost:80/api/userinfo?id=${localStorage.getItem('id')}`,{headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
+        Axios.get(`http://35.228.122.244:80/api/userinfo?id=${localStorage.getItem('id')}`,{headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
             setUser(response.data);
         })
     }, [])

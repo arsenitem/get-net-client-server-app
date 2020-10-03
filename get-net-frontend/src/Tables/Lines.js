@@ -7,14 +7,14 @@ function Lines() {
     let [totalPages, setTotalPages] = useState(0);
     let [currentPage, setCurrentPage] = useState(1);
     useEffect(() =>{
-      axios.get(`http://localhost:80/api/lines?page=${currentPage}`, {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
+      axios.get(`http://35.228.122.244:80/api/lines?page=${currentPage}`, {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
         setTotalPages(Math.ceil(response.data.count/10));
         setLines(response.data.lines);
       });
     }, []);
     let pageClick = (item) => {
         setCurrentPage(item);
-        axios.get(`http://localhost:80/api/lines?page=${item}`, {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
+        axios.get(`http://35.228.122.244:80/api/lines?page=${item}`, {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
             setLines(response.data.lines);
         })
     }

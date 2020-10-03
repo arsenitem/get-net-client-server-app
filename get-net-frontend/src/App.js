@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import Login from './Login/Login';
 import { Container } from 'react-bootstrap';
 import Profile from './Profile/Profile';
@@ -21,7 +21,7 @@ function App() {
   });
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Container className="App">
         {userAuth?
         <>
@@ -55,7 +55,7 @@ function App() {
         </Switch>   
         </>}
       </Container>         
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

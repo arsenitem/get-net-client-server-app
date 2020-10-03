@@ -16,7 +16,7 @@ function EditProfile(props) {
     },[])
    
     function saveChanges() {
-        Axios.post(`http://localhost:80/api/changeuserinfo?id=${localStorage.getItem('id')}&firstName=${name}&lastName=${lastName}&birthDate=${bday}`,null,
+        Axios.post(`http://35.228.122.244:80/api/changeuserinfo?id=${localStorage.getItem('id')}&firstName=${name}&lastName=${lastName}&birthDate=${bday}`,null,
         {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response =>{
             props.setUser(response.data)
         })
@@ -24,7 +24,7 @@ function EditProfile(props) {
     }
 
     function saveSecChanges() {
-        Axios.post(`http://localhost:80/api/changeuserpassword?id=${localStorage.getItem('id')}&password=${newPass}&prev=${prevPass}`, null,
+        Axios.post(`http://35.228.122.244:80/api/changeuserpassword?id=${localStorage.getItem('id')}&password=${newPass}&prev=${prevPass}`, null,
         {headers:{ Authorization: `Bearer ${localStorage.getItem('token')}`}}).then(response => {
             props.setEditProfileEnabled(false)
         }).catch(() =>{
