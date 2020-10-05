@@ -160,5 +160,4 @@ app.get("/api/bills", function(request, response) {
 
 app.listen(80, '0.0.0.0', function() {
     console.log('Listening to port:  ' + 80);
-    Register.register('arsenitem@bk.ru', '123');
 });
