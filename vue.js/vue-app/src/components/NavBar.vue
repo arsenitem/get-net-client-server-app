@@ -41,7 +41,7 @@
             </li>
             <li class="nav-item">
                <router-link
-                to="/lines"
+                to="/bills"
                 class="nav-link"
                 >
                     Счета

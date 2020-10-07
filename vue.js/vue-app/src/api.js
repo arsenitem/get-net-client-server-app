@@ -22,6 +22,9 @@ const api = {
 
     getBills(page) {
         return instance.get(`bills?page=${page}`)
+    },
+    getUserinfo(id) {
+        return instance.get(`userinfo?id=${id}`)
     }
 }
 export default api;
